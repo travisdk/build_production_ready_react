@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // COMPONENTS
 import Navbar from "./components/Navbar";
@@ -24,16 +24,24 @@ function App() {
   const [isCollapsed, collapse] = useState(false);
 
   const handleOnChange = (e) => {
-    setInputs({ title: e.target.value, file: e.target.files[0], path: URL.createObjectURL(e.target.files[0]) });
+    if (e.target.name === "file") {
+      setInputs({ ...inputs, file: e.target.files[0], path: URL.createObjectURL(e.target.files[0]) });
+    } else {
+      setInputs({ ...inputs, title: e.target.value });
+    }
   };
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    setItems([inputs.file, ...items]);
+    setItems([inputs.path, ...items]);
   };
 
   const toggle = () => {
     collapse(!isCollapsed);
   };
+
+  useEffect(() => {
+    console.log("hello mount");
+  }, [items]);
 
   return (
     <>
