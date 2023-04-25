@@ -3,6 +3,7 @@ import { useState } from "react";
 // COMPONENTS
 import Navbar from "./components/Navbar";
 import Card from "./components/Card";
+import UploadForm from "./components/UploadForm";
 
 // CSS
 import "./App.css";
@@ -18,8 +19,17 @@ const photos = [
 ];
 
 function App() {
+  const [inputs, setInputs] = useState({ title: null, file: null, path: null });
   const [items, setItems] = useState(photos);
   const [isCollapsed, collapse] = useState(false);
+
+  const handleOnChange = (e) => {
+    setInputs({ title: e.target.value, file: e.target.files[0], path: URL.createObjectURL(e.target.files[0]) });
+  };
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    setItems([inputs.file, ...items]);
+  };
 
   const toggle = () => {
     collapse(!isCollapsed);
@@ -28,13 +38,12 @@ function App() {
   return (
     <>
       <div className="container text-center mt-5">
-        <button className="btn btn-warning" onClick={() => setItems(["https://picsum.photos/id/1005/200/200", ...items])}>
-          ADD
+        <button className="btn btn-success float-end" onClick={toggle}>
+          {isCollapsed ? "Close" : "Add"}
         </button>
-        <button className="btn btn-success mx-2" onClick={toggle}>
-          collapse
-        </button>
-
+        <div className="clearfix mb-4">
+          <UploadForm isVisible={isCollapsed} onChange={handleOnChange} onSubmit={handleOnSubmit} />
+        </div>
         <h1>Gallery</h1>
 
         <Navbar />
