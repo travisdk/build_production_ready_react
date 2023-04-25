@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+// COMPONENTS
+import Navbar from "./components/Navbar";
+import Card from "./components/Card";
+
+// CSS
+import "./App.css";
+const photos = [
+  "https://picsum.photos/id/1001/200/200",
+  "https://picsum.photos/id/1002/200/200",
+  "https://picsum.photos/id/1003/200/200",
+  "https://picsum.photos/id/1004/200/200",
+  "https://picsum.photos/id/1005/200/200",
+  "https://picsum.photos/id/1006/200/200",
+];
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="container text-center mt-5">
+        <h1>Gallery</h1>
+        <Navbar />
+        <div className="row">
+          {photos.map((photo) => {
+            return <Card src={photo} />;
+          })}
+        </div>
+      </div>
+    </>
   );
 }
 
