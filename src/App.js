@@ -19,6 +19,7 @@ const photos = [
 ];
 
 function App() {
+  const [count, setCount] = useState(0);
   const [inputs, setInputs] = useState({ title: null, file: null, path: null });
   const [items, setItems] = useState(photos);
   const [isCollapsed, collapse] = useState(false);
@@ -33,6 +34,8 @@ function App() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     setItems([inputs.path, ...items]);
+    setInputs({ title: null, file: null, path: null });
+    collapse(false);
   };
 
   const toggle = () => {
@@ -40,7 +43,7 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("hello mount");
+    setCount(`you have ${items.length} image${items.length > 1 ? "s" : ""}`);
   }, [items]);
 
   return (
@@ -50,8 +53,9 @@ function App() {
           {isCollapsed ? "Close" : "Add"}
         </button>
         <div className="clearfix mb-4">
-          <UploadForm isVisible={isCollapsed} onChange={handleOnChange} onSubmit={handleOnSubmit} />
+          <UploadForm isVisible={isCollapsed} onChange={handleOnChange} onSubmit={handleOnSubmit} inputs={inputs} />
         </div>
+        {count}
         <h1>Gallery</h1>
 
         <Navbar />
