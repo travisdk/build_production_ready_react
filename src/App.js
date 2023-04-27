@@ -1,71 +1,35 @@
-import { useState, useEffect } from "react";
+import { useMemo, useContext, useEffect } from "react";
+
+// Firebase
+import app from "./lib/firebase.config";
 
 // COMPONENTS
-import Navbar from "./components/Navbar";
 import Card from "./components/Card";
-import UploadForm from "./components/UploadForm";
 
 // CSS
 import "./App.css";
-
-// TEST DATA
-const photos = [
-  "https://picsum.photos/id/1001/200/200",
-  "https://picsum.photos/id/1002/200/200",
-  "https://picsum.photos/id/1003/200/200",
-  "https://picsum.photos/id/1004/200/200",
-  "https://picsum.photos/id/1005/200/200",
-  "https://picsum.photos/id/1006/200/200",
-];
+import Layout from "./components/Layout";
+import { Context } from "./context";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [inputs, setInputs] = useState({ title: null, file: null, path: null });
-  const [items, setItems] = useState(photos);
-  const [isCollapsed, collapse] = useState(false);
-
-  const handleOnChange = (e) => {
-    if (e.target.name === "file") {
-      setInputs({ ...inputs, file: e.target.files[0], path: URL.createObjectURL(e.target.files[0]) });
-    } else {
-      setInputs({ ...inputs, title: e.target.value });
-    }
-  };
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    setItems([inputs.path, ...items]);
-    setInputs({ title: null, file: null, path: null });
-    collapse(false);
-  };
-
-  const toggle = () => {
-    collapse(!isCollapsed);
-  };
+  const { state } = useContext(Context);
+  const count = useMemo(() => `you have ${state.items.length} image${state.items.length > 1 ? "s" : ""}`, [state.items]);
 
   useEffect(() => {
-    setCount(`you have ${items.length} image${items.length > 1 ? "s" : ""}`);
-  }, [items]);
+    app();
+  }, []);
 
   return (
     <>
-      <div className="container text-center mt-5">
-        <button className="btn btn-success float-end" onClick={toggle}>
-          {isCollapsed ? "Close" : "Add"}
-        </button>
-        <div className="clearfix mb-4">
-          <UploadForm isVisible={isCollapsed} onChange={handleOnChange} onSubmit={handleOnSubmit} inputs={inputs} />
-        </div>
-        {count}
+      <Layout>
         <h1>Gallery</h1>
-
-        <Navbar />
-
+        {count}
         <div className="row">
-          {items.map((photo, index) => {
-            return <Card key={index} src={photo} />;
+          {state.items.map((item, index) => {
+            return <Card key={index} {...item} />;
           })}
         </div>
-      </div>
+      </Layout>
     </>
   );
 }
