@@ -1,21 +1,34 @@
+import Firestore from "./../handlers/firestore";
 import { useMemo, useContext } from "react";
 import { Context } from "../context";
 import Preview from "./Preview";
+import Storage from "../handlers/storage";
+
+const { writeDoc } = Firestore;
+const { uploadFile, downloadFile } = Storage;
 
 const UploadForm = () => {
   const { state, dispatch } = useContext(Context);
-  const isDisabled = useMemo(() => !!Object.values(state.inputs).some((input) => !input), [state.inputs]);
+  const { isCollapsed: isVisible, inputs } = state;
+  const isDisabled = useMemo(() => !!Object.values(inputs).some((input) => !input), [inputs]);
   const handleOnChange = (e) => {
     dispatch({ type: "setInputs", payload: { value: e } });
   };
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    dispatch({ type: "setItem" });
-    dispatch({ type: "collapse", payload: { bool: false } });
+
+    uploadFile(inputs)
+      .then(downloadFile)
+      .then((url) => {
+        writeDoc({ title: inputs.title, path: url }, "stocks");
+        dispatch({ type: "setItem" });
+        dispatch({ type: "collapse", payload: { bool: false } });
+      });
   };
+
   return (
-    state.isCollapsed && (
+    isVisible && (
       <>
         <p className="display-6 text-center mb-3">Upload Stock Image</p>
 
@@ -36,7 +49,7 @@ const UploadForm = () => {
               <input type="file" className="form-control" name="file" onChange={handleOnChange} />
             </div>
             <button disabled={isDisabled} type="submit" className="btn btn-success float-end">
-              Save changes
+              Save and upload
             </button>
           </form>
         </div>

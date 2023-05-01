@@ -1,25 +1,26 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBGzBoCZ75xKqPF392h4uRicQTgTMmm7wM",
-  authDomain: "firestock-66bdc.firebaseapp.com",
-  projectId: "firestock-66bdc",
-  storageBucket: "firestock-66bdc.appspot.com",
-  messagingSenderId: "1062161305725",
-  appId: "1:1062161305725:web:baeb6a462f5816dabe6114",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
 };
 
 // Initialize Firebase
-const app = () => {
-  if (!firebaseConfig || !firebaseConfig.apiKey) {
-    throw Error("No firebase configuration object provided / Add your web apps configuration object to firebase-config.js");
-  } else {
-    console.log("Firebase initialized");
-  }
-  return initializeApp(firebaseConfig);
-};
+const app = initializeApp(firebaseConfig);
+
+export const db = getFirestore(app);
+
+export const storage = getStorage(app);
+
 export default app;
