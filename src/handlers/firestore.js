@@ -3,7 +3,6 @@ import { db } from "../lib/firebase.config";
 
 const Firestore = {
   readDocs: (...args) => {
-    console.log(args);
     const [collection_name] = args;
     let docs = [];
     const ref = collection(db, collection_name);
@@ -15,10 +14,10 @@ const Firestore = {
           const d = { ...doc.data() };
           docs.push(d);
         });
+        resolve(docs);
       } catch (err) {
         console.log(err);
       }
-      resolve(docs);
     });
   },
   writeDoc: (...args) => {
