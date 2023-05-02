@@ -21,9 +21,10 @@ const UploadForm = () => {
     uploadFile(inputs)
       .then(downloadFile)
       .then((url) => {
-        writeDoc({ title: inputs.title, path: url }, "stocks");
-        dispatch({ type: "setItem" });
-        dispatch({ type: "collapse", payload: { bool: false } });
+        writeDoc({ ...inputs, path: url }, "stocks").then(() => {
+          dispatch({ type: "setItem" });
+          dispatch({ type: "collapse", payload: { bool: false } });
+        });
       });
   };
 
