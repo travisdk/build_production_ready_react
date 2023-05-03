@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Context } from "../context";
+import { Context } from "../context/FirestoreContext";
 const Preview = () => {
   const { state } = useContext(Context);
   const { inputs } = state;
