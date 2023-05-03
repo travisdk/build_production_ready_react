@@ -3,7 +3,7 @@ const Card = ({ path, title, createdAt }) => {
   const timestamp = useMemo(() => {
     const date = `${new Date(createdAt.seconds * 1000)}`.split(" ");
     return `${date[1]} ${date[2]} ${date[3]}`; // date from milliseconds from creation - serverTimestamp
-  }, []);
+  }, [createdAt]);
   return (
     <div className="col mb-5">
       <div className="card" style={{ width: "18rem" }}>

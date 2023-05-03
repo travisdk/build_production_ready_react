@@ -6,15 +6,18 @@ const Context = createContext();
 
 const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const login = () => signIn().then(setCurrentUser);
-  const logout = () => signOut().then(() => setCurrentUser(null));
+  const login = () => {
+    signIn().then(setCurrentUser);
+  };
+  const logout = () => signOut().then(setCurrentUser(null));
+
   const value = useMemo(() => {
     return {
       login,
       logout,
       currentUser,
     };
-  }, []);
+  }, [currentUser]);
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };

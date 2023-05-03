@@ -1,7 +1,4 @@
 import { useMemo, useContext, useEffect } from "react";
-import FirebaseAuth from "./handlers/auth";
-// TEMP
-import Firestore from "./handlers/firestore";
 
 // COMPONENTS
 import Card from "./components/Card";
@@ -21,7 +18,7 @@ function App() {
   return (
     <>
       <Layout>
-        <h1>Gallery</h1>
+        <h1>Gallery </h1>
         {count}
         <div className="row">
           {state.items.map((item, index) => {

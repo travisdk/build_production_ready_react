@@ -7,7 +7,9 @@ const FirebaseAuth = {
   signIn: () => {
     return new Promise((resolve) => {
       signInWithPopup(auth, provider)
-        .then((response) => resolve(response.user))
+        .then((response) => {
+          resolve(response.user);
+        })
         .catch(console.error);
     });
   },

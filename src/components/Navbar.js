@@ -2,6 +2,7 @@ import { useAuthContext } from "../context/AuthContext";
 
 const LogIn = () => {
   const { login, currentUser } = useAuthContext();
+  console.log(currentUser);
 
   return (
     !currentUser && (
@@ -14,8 +15,10 @@ const LogIn = () => {
 const LogOut = () => {
   const { logout, currentUser } = useAuthContext();
 
+  // !!currentUser ( = currentUser == true)
+
   return (
-    currentUser && (
+    !!currentUser && (
       <button type="button" className="btn btn-danger" onClick={logout}>
         Logout
       </button>
@@ -59,9 +62,9 @@ function Dropdown() {
             <a className="dropdown-item text-center" href="#">
               Profile
             </a>
-            <li>
-              <hr className="dropdown divider" />
-            </li>
+          </li>{" "}
+          <li>
+            <hr className="dropdown divider" />
           </li>
           <div className="d-flex justify-content-center">
             <LogIn />
