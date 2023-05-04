@@ -1,16 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App";
+import StockImages from "./components/StockImages";
+import Layout from "./components/Layout";
 import reportWebVitals from "./reportWebVitals";
 import Provider from "./context/FirestoreContext";
 import AuthProvider from "./context/AuthContext";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
     <AuthProvider>
       <Provider>
-        <App />
+        <Router>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<App />} />
+              <Route path="/stockimages" element={<StockImages />} />
+            </Routes>
+          </Layout>
+        </Router>
       </Provider>
     </AuthProvider>
   </React.StrictMode>

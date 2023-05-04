@@ -1,7 +1,6 @@
-import { useContext } from "react";
-import { Context } from "../context/FirestoreContext";
+import { useFirestoreContext } from "../context/FirestoreContext";
 const Preview = () => {
-  const { state } = useContext(Context);
+  const { state } = useFirestoreContext();
   const { inputs } = state;
 
   return (
@@ -11,7 +10,7 @@ const Preview = () => {
         style={{
           width: "30%",
           height: "300px",
-          backgroundImage: `url(${inputs.path}`,
+          backgroundImage: `url(${inputs.path})`,
           backgroundSize: "cover",
         }}></div>
     )

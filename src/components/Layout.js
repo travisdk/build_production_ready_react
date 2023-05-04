@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { Context } from "../context/FirestoreContext";
+import { useFirestoreContext } from "../context/FirestoreContext";
 import Navbar from "./Navbar";
 import UploadForm from "./UploadForm";
 
 const Layout = ({ children }) => {
-  const { state, dispatch } = useContext(Context);
+  const { state, dispatch } = useFirestoreContext();
   const toggle = (bool) => {
     dispatch({ type: "collapse", payload: { bool: !state.isCollapsed } });
   };

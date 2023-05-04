@@ -1,8 +1,9 @@
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 
 const LogIn = () => {
   const { login, currentUser } = useAuthContext();
-  console.log(currentUser);
 
   return (
     !currentUser && (
@@ -30,9 +31,14 @@ const Navigation = () => {
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
       {/* remove all links except HOME */}
       <li className="nav-item">
-        <a className="nav-link active" aria-current="page" href="#">
+        <Link to={"/"} className="nav-link active" aria-current="page">
           Home
-        </a>
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link to={"/stockimages"} className="nav-link" aria-current="page">
+          My Stock Images
+        </Link>
       </li>
     </ul>
   );
@@ -49,18 +55,29 @@ const SearchForm = () => {
   );
 };
 function Dropdown() {
+  const { currentUser } = useAuthContext();
+  const username = useMemo(() => {
+    return currentUser?.displayName || "Profile";
+  }, [currentUser]);
+  const avatar = useMemo(() => {
+    return !!currentUser ? (
+      <img className="rounded-circle" src={currentUser?.photoURL} alt={currentUser?.displayName} width={34} height={34} />
+    ) : (
+      "Login"
+    );
+  }, [currentUser]);
   return (
     <ul className="navbar-nav mb-2 mb-lg-0">
       {" "}
       {/* remove ms-auto */}
       <li className="nav-item dropdown">
         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Login
+          {avatar}
         </a>
-        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <ul className="dropdown-menu dropdown-menu-end " aria-labelledby="navbarDropdown">
           <li>
             <a className="dropdown-item text-center" href="#">
-              Profile
+              {username}
             </a>
           </li>{" "}
           <li>
