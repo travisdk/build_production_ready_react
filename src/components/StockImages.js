@@ -6,7 +6,7 @@ import { useAuthContext } from "../context/AuthContext";
 const StockImages = () => {
   const { state } = useFirestoreContext();
   const { currentUser } = useAuthContext();
-  const username = currentUser?.displayName.toLowerCase().split(" ").join("");
+  const username = currentUser?.displayName?.toLowerCase().split(" ").join("");
 
   const items = useMemo(() => {
     const filtered = state.items.filter((item) => {

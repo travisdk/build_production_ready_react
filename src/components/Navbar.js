@@ -27,18 +27,21 @@ const LogOut = () => {
   );
 };
 const Navigation = () => {
+  const { currentUser } = useAuthContext();
   return (
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
       {/* remove all links except HOME */}
       <li className="nav-item">
-        <Link to={"/"} className="nav-link active" aria-current="page">
+        <Link to="/" className="nav-link active" aria-current="page">
           Home
         </Link>
       </li>
       <li className="nav-item">
-        <Link to={"/stockimages"} className="nav-link" aria-current="page">
-          My Stock Images
-        </Link>
+        {currentUser && (
+          <Link to="/stockimages" className="nav-link" aria-current="page">
+            My Stock Images
+          </Link>
+        )}
       </li>
     </ul>
   );
@@ -61,7 +64,14 @@ function Dropdown() {
   }, [currentUser]);
   const avatar = useMemo(() => {
     return !!currentUser ? (
-      <img className="rounded-circle" src={currentUser?.photoURL} alt={currentUser?.displayName} width={34} height={34} />
+      <img
+        className="rounded-circle"
+        referrerPolicy="no-referrer"
+        src={currentUser?.photoURL}
+        alt={currentUser?.displayName}
+        width={34}
+        height={34}
+      />
     ) : (
       "Login"
     );
@@ -76,10 +86,12 @@ function Dropdown() {
         </a>
         <ul className="dropdown-menu dropdown-menu-end " aria-labelledby="navbarDropdown">
           <li>
-            <a className="dropdown-item text-center" href="#">
-              {username}
-            </a>
-          </li>{" "}
+            {currentUser && (
+              <Link className="dropdown-item text-center" to="/profile">
+                {username}
+              </Link>
+            )}
+          </li>
           <li>
             <hr className="dropdown divider" />
           </li>

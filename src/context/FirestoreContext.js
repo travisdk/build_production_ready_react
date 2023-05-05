@@ -56,6 +56,7 @@ const Provider = ({ children }) => {
   // async readDocs
   const read = async () => {
     const items = await readDocs("stocks");
+
     dispatch({ type: "setItems", payload: { items } });
   };
 
