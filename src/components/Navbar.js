@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 
 const LogIn = () => {
@@ -28,29 +28,54 @@ const LogOut = () => {
 };
 const Navigation = () => {
   const { currentUser } = useAuthContext();
+  const { pathname } = useLocation();
+  const atLocation = (path) => {
+    return pathname === path ? `nav-link active` : `nav-link`;
+  };
   return (
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
       {/* remove all links except HOME */}
       <li className="nav-item">
-        <Link to="/" className="nav-link active" aria-current="page">
+        <Link to="/" className={atLocation("/")} aria-current="page">
           Home
         </Link>
       </li>
-      <li className="nav-item">
-        {currentUser && (
-          <Link to="/stockimages" className="nav-link" aria-current="page">
+      {currentUser && (
+        <li className="nav-item">
+          <Link to="/stockimages" className={atLocation("/stockimages")} aria-current="page">
             My Stock Images
           </Link>
-        )}
-      </li>
+        </li>
+      )}
+      {currentUser && (
+        <li className="nav-item">
+          <Link to="/profile" className={atLocation("/profile")} aria-current="page">
+            Profile
+          </Link>
+        </li>
+      )}
     </ul>
   );
 };
 
 const SearchForm = () => {
+  const [text, search] = useState(null);
+  const handleOnChange = (e) => search(e.target.value);
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    console.log(text);
+  };
+
   return (
-    <form className="d-flex">
-      <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+    <form className="d-flex" onSubmit={handleOnSubmit}>
+      <input
+        className="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        value={text || ""}
+        onChange={handleOnChange}
+      />
       <button className="btn btn-outline-success" type="submit">
         Search
       </button>
