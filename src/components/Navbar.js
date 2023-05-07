@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import { useFirestoreContext } from "../context/FirestoreContext";
 
 const LogIn = () => {
   const { login, currentUser } = useAuthContext();
@@ -59,11 +60,16 @@ const Navigation = () => {
 };
 
 const SearchForm = () => {
+  const { filterItems } = useFirestoreContext();
   const [text, search] = useState(null);
-  const handleOnChange = (e) => search(e.target.value);
+  const handleOnChange = (e) => {
+    search(e.target.value);
+    filterItems(e.target.value);
+  };
+
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(text);
+    filterItems(text);
   };
 
   return (

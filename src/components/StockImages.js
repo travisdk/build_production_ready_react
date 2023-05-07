@@ -17,7 +17,7 @@ const StockImages = () => {
   return (
     <>
       <h1> My Stock Images</h1>
-      <List items={items} />
+      <List items={items} filter={state.nameFilter} />
     </>
   );
 };

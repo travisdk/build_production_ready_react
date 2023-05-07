@@ -21,7 +21,7 @@ function App() {
     <>
       <h1>Gallery </h1>
       {count}
-      <List items={state.items} />
+      <List items={state.items} filter={state.nameFilter} />
     </>
   );
 }
